@@ -5,8 +5,15 @@
   "repository": "facebook/relay-starter-kit",
   "version": "0.1.0",
   "scripts": {
-    "start": "babel-node ./server.js",
-    "update-schema": "babel-node ./scripts/updateSchema.js"
+    "start": "nodemon --ignore js server.js --exec babel-node",
+    "update-schema": "babel-node ./scripts/updateSchema.js",
+    "build": "npm run build-server && npm run build-data && npm run build-frontend",
+    "build-frontend": "NODE_ENV=production webpack -p -d --progress --colors --config webpack.config.js",
+    "build-server": "NODE_ENV=production babel server.js -o dist/server.js -s",
+    "build-data": "NODE_ENV=production babel data -d dist/data -s",
+    "serve": "NODE_ENV=production node dist/server.js",
+    "production-test": "npm run build && npm run serve",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "babel-core": "6.3.21",
@@ -28,6 +35,7 @@
     "webpack-dev-server": "1.14.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.3.17"
+    "babel-cli": "^6.3.17",
+    "nodemon": "^1.8.1"
   }
 }
