@@ -5,15 +5,18 @@
   "repository": "facebook/relay-starter-kit",
   "version": "0.1.0",
   "scripts": {
-    "start": "nodemon --ignore js server.js --exec babel-node",
+    "start": "nf start build-frontend-development=1,build-server=1,build-data=1,build-webpack-config=1,dev-server=1",
     "update-schema": "babel-node ./scripts/updateSchema.js",
-    "build": "npm run build-server && npm run build-data && npm run build-frontend",
-    "build-frontend": "NODE_ENV=production webpack -p -d --progress --colors --config webpack.config.js",
-    "build-server": "NODE_ENV=production babel server.js -o dist/server.js -s",
-    "build-data": "NODE_ENV=production babel data -d dist/data -s",
+    "build": "npm run build-server && npm run build-data && npm run build-frontend-production && npm run build-webpack-config",
     "serve": "NODE_ENV=production node dist/server.js",
-    "production-test": "npm run build && npm run serve",
-    "postinstall": "npm run build"
+    "build-frontend-production": "webpack -p -d --progress --colors --config webpack.config.js",
+    "build-frontend-development": "webpack --watch -d --colors --config webpack.config.js",
+    "build-server": "babel --watch server.js -o dist/server.js -s",
+    "build-data": "babel --watch data -d dist/data -s",
+    "build-webpack-config": "babel --watch webpack.config.js -o dist/webpack.config.js -s",
+    "postinstall": "npm run build",
+    "dev-server": "nodemon --watch dist --ignore dist/js dist/server.js",
+    "production-test": "npm run build && npm run serve"
   },
   "dependencies": {
     "babel-core": "6.3.21",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
+    "foreman": "^1.4.1",
     "nodemon": "^1.8.1"
   }
 }
