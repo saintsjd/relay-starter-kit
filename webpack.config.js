@@ -1,7 +1,10 @@
 var path = require('path');
+var webpack = require('webpack');
 
 var frontendConfig = {
-  entry: path.resolve(__dirname, 'js', 'app.js'),
+  entry: {
+      app: [path.resolve(__dirname, 'js', 'app.js')]
+  },
   output: {
       filename: 'app.js',
       path: path.resolve(__dirname, 'dist', 'js')
@@ -17,7 +20,10 @@ var frontendConfig = {
               test: /\.js$/,
           }
       ]
-  }
+  },
+  plugins: [
+      new webpack.HotModuleReplacementPlugin()
+  ],
 };
 
 module.exports = frontendConfig;

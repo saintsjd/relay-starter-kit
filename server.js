@@ -34,6 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 
     // Serve the Relay app
     var config = require('./webpack.config');
+    config.entry.app.unshift(`webpack-dev-server/client?http://localhost:${APP_PORT}`, "webpack/hot/dev-server");
     var compiler = webpack(config);
     var app = new WebpackDevServer(compiler, {
       noInfo: true,
@@ -47,6 +48,6 @@ if (process.env.NODE_ENV === 'production') {
     // Serve static resources
     app.use('/', express.static(path.resolve(__dirname, 'public')));
     app.listen(APP_PORT, () => {
-      console.log(`App is now running on http://localhost:${APP_PORT}/webpack-dev-server`);
+      console.log(`App is now running on http://localhost:${APP_PORT}`);
     });
 }
